@@ -4,14 +4,15 @@ import Card from "./Card";
 import Heading from "../Shared/Heading";
 import Container from "../Shared/Container";
 import LoadingSpinner from "../Shared/LoadingSpinner";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAxiosCommon from "../../hooks/useAxiosCommon";
 
 const Rooms = () => {
-  const axiosSecure = useAxiosSecure();
+  const axiosCommon = useAxiosCommon();
+
   const { data: rooms = [], isLoading } = useQuery({
     queryKey: ["rooms"],
     queryFn: async () => {
-      const { data } = await axiosSecure.get("/rooms");
+      const { data } = await axiosCommon.get("/rooms");
       return data;
     },
   });

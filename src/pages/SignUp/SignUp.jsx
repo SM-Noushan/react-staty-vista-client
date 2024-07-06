@@ -1,10 +1,10 @@
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import { FcGoogle } from "react-icons/fc";
 import toast from "react-hot-toast";
+import { FcGoogle } from "react-icons/fc";
+import { TbFidgetSpinner } from "react-icons/tb";
+import { Link, useNavigate } from "react-router-dom";
 
 import useAuth from "../../hooks/useAuth";
-import { TbFidgetSpinner } from "react-icons/tb";
 
 const SignUp = () => {
   const {
@@ -50,7 +50,7 @@ const SignUp = () => {
   const handleGoogleSignIn = async () => {
     try {
       await signInWithGoogle();
-      toast.success("Signin successful");
+      toast.success("Signup successful");
       navigate("/");
     } catch (error) {
       toast.error(error.message);

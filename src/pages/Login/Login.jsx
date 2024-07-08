@@ -2,15 +2,20 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { TbFidgetSpinner } from "react-icons/tb";
 import { FcGoogle } from "react-icons/fc";
 import toast from "react-hot-toast";
+import { useState } from "react";
 
 import useAuth from "../../hooks/useAuth";
+import ResetPasswordModal from "../../components/Modals/ResetPasswordModal";
 
 const Login = () => {
-  const { signIn, signInWithGoogle, loading, setLoading } = useAuth();
+  const [isOpen, setIsOpen] = useState(false); // reset password modal
+  const { signIn, signInWithGoogle, loading, setLoading, resetPassword } =
+    useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location?.state || "/";
 
+  // form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -27,6 +32,7 @@ const Login = () => {
     }
   };
 
+  // google sign in
   const handleGoogleSignIn = async () => {
     try {
       await signInWithGoogle();
@@ -34,6 +40,26 @@ const Login = () => {
       navigate(from);
     } catch (error) {
       toast.error(error.message);
+      setLoading(false);
+    }
+  };
+
+  // forgot password modal
+  const handleCloseModal = () => {
+    setIsOpen(false);
+  };
+  // reset password
+  const handleResetEmail = async (email) => {
+    console.log(email);
+    if (!email) return toast.error("Please write your email first!");
+    try {
+      await resetPassword(email);
+      toast.success("Request Success! Check your email for further process...");
+      handleCloseModal();
+    } catch (err) {
+      console.log(err);
+      toast.error(err.message);
+    } finally {
       setLoading(false);
     }
   };
@@ -95,9 +121,20 @@ const Login = () => {
           </div>
         </form>
         <div className="space-y-1">
-          <button className="text-xs hover:underline hover:text-rose-500 text-gray-400">
+          <button
+            onClick={() => {
+              setIsOpen(true);
+            }}
+            className="text-xs hover:underline hover:text-rose-500 text-gray-400"
+          >
             Forgot password?
           </button>
+          {/* reset password modal */}
+          <ResetPasswordModal
+            isOpen={isOpen}
+            closeModal={handleCloseModal}
+            resetEmail={handleResetEmail}
+          />
         </div>
         <div className="flex items-center pt-4 space-x-1">
           <div className="flex-1 h-px sm:w-16 dark:bg-gray-700"></div>

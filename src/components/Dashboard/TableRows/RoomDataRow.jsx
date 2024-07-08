@@ -1,7 +1,16 @@
-import PropTypes from "prop-types";
+import { useState } from "react";
 import { format } from "date-fns";
+import PropTypes from "prop-types";
 
-const RoomDataRow = ({ room, refetch }) => {
+import DeleteModal from "../../Modals/DeleteModal";
+
+const RoomDataRow = ({ room, handleDelete }) => {
+  // for delete modal
+  const [isOpen, setIsOpen] = useState(false);
+  const handleCloseModal = () => {
+    setIsOpen(false);
+  };
+
   return (
     <tr>
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -37,14 +46,23 @@ const RoomDataRow = ({ room, refetch }) => {
         </p>
       </td>
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-        <span className="relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+        <button
+          onClick={() => setIsOpen(true)}
+          className="relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight"
+        >
           <span
             aria-hidden="true"
             className="absolute inset-0 bg-red-200 opacity-50 rounded-full"
           ></span>
           <span className="relative">Delete</span>
-        </span>
+        </button>
         {/* Delete modal */}
+        <DeleteModal
+          isOpen={isOpen}
+          closeModal={handleCloseModal}
+          handleDelete={handleDelete}
+          id={room?._id}
+        />
       </td>
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
         <span className="relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
@@ -62,7 +80,7 @@ const RoomDataRow = ({ room, refetch }) => {
 
 RoomDataRow.propTypes = {
   room: PropTypes.object,
-  refetch: PropTypes.func,
+  handleDelete: PropTypes.func,
 };
 
 export default RoomDataRow;

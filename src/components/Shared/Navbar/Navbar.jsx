@@ -4,10 +4,48 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import avatarImg from "../../../assets/images/placeholder.jpg";
+import HostModal from "../../Modals/HostRequestModal";
+import { useMutation } from "@tanstack/react-query";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const [isOpen, setIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleCloseModal = () => setIsModalOpen(false);
+  // handle host request
+  //post roomData to server
+  const { mutateAsync: hostRequestMutation } = useMutation({
+    mutationFn: async () => {
+      const userInfo = {
+        email: user?.email,
+        role: "guest",
+        status: "Requested",
+      };
+      const { data } = await axiosSecure.put("/user", userInfo);
+      console.log(data);
+      return data;
+    },
+    onSuccess: (res) => {
+      if (res.modifiedCount > 0)
+        toast.success("Requested! Please wait for approval");
+      else toast.success("Already Requested! Please wait for approval");
+    },
+    onError: () => {
+      toast.error("Failed! Try again");
+    },
+  });
+  const handleHostModalRequest = async () => {
+    try {
+      await hostRequestMutation();
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      handleCloseModal();
+    }
+  };
 
   return (
     <div className="fixed w-full bg-white z-10 shadow-sm">
@@ -29,8 +67,9 @@ const Navbar = () => {
               <div className="flex flex-row items-center gap-3">
                 {/* Become A Host btn */}
                 <div className="hidden md:block">
-                  {!user && (
+                  {user && (
                     <button
+                      onClick={() => setIsModalOpen(true)}
                       disabled={!user}
                       className="disabled:cursor-not-allowed cursor-pointer hover:bg-neutral-100 py-3 px-4 text-sm font-semibold rounded-full  transition"
                     >
@@ -38,6 +77,12 @@ const Navbar = () => {
                     </button>
                   )}
                 </div>
+                {/* Modal */}
+                <HostModal
+                  isOpen={isModalOpen}
+                  closeModal={handleCloseModal}
+                  handleHostModalRequest={handleHostModalRequest}
+                />
                 {/* Dropdown btn */}
                 <div
                   onClick={() => setIsOpen(!isOpen)}
@@ -47,11 +92,9 @@ const Navbar = () => {
                   <div className="hidden md:block">
                     {/* Avatar */}
                     <img
-                      className="rounded-full"
+                      className="rounded-full size-[30px] object-contain"
                       src={user && user.photoURL ? user.photoURL : avatarImg}
                       alt="profile"
-                      height="30"
-                      width="30"
                     />
                   </div>
                 </div>

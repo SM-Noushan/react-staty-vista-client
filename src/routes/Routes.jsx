@@ -15,6 +15,8 @@ import Statistics from "../pages/Dashboard/Common/Statistics";
 import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 import AdminRoute from "./AdminRoute";
 import HostRoute from "./HostRoute";
+import MyBookings from "../pages/Dashboard/Guest/MyBookings";
+import ManageBookings from "../pages/Dashboard/Host/ManageBookings";
 
 export const router = createBrowserRouter([
   {
@@ -49,6 +51,10 @@ export const router = createBrowserRouter([
         element: <Statistics />,
       },
       {
+        path: "my-bookings",
+        element: <MyBookings />,
+      },
+      {
         path: "add-room",
         element: (
           <HostRoute>
@@ -61,6 +67,14 @@ export const router = createBrowserRouter([
         element: (
           <HostRoute>
             <MyListings />,
+          </HostRoute>
+        ),
+      },
+      {
+        path: "manage-bookings",
+        element: (
+          <HostRoute>
+            <ManageBookings />,
           </HostRoute>
         ),
       },

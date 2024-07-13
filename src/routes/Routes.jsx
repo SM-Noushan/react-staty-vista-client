@@ -12,6 +12,7 @@ import Profile from "../pages/Dashboard/Common/Profile";
 import RoomDetails from "../pages/RoomDetails/RoomDetails";
 import MyListings from "../pages/Dashboard/Host/MyListings";
 import Statistics from "../pages/Dashboard/Common/Statistics";
+import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 
 export const router = createBrowserRouter([
   {
@@ -52,6 +53,10 @@ export const router = createBrowserRouter([
       {
         path: "my-listings",
         element: <MyListings />,
+      },
+      {
+        path: "manage-users",
+        element: <ManageUsers />,
       },
       {
         path: "profile",

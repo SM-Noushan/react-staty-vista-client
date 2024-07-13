@@ -16,7 +16,6 @@ const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleCloseModal = () => setIsModalOpen(false);
   // handle host request
-  //post roomData to server
   const { mutateAsync: hostRequestMutation } = useMutation({
     mutationFn: async () => {
       const userInfo = {

@@ -25,7 +25,6 @@ const Navbar = () => {
         status: "Requested",
       };
       const { data } = await axiosSecure.put("/user", userInfo);
-      console.log(data);
       return data;
     },
     onSuccess: (res) => {

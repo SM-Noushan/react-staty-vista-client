@@ -7,10 +7,12 @@ import { GrLogout, GrUserAdmin } from "react-icons/gr";
 import { BsFillHouseAddFill, BsFingerprint, BsGraphUp } from "react-icons/bs";
 
 import useAuth from "../../../hooks/useAuth";
+import useRole from "../../../hooks/useRole";
 
 const Sidebar = () => {
   const { logOut } = useAuth();
   const [isActive, setActive] = useState(false);
+  const [role, isLoading] = useRole();
 
   // Sidebar Responsive Handler
   const handleToggle = () => {

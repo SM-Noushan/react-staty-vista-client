@@ -1,14 +1,16 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { GrLogout } from "react-icons/gr";
+import { BsGraphUp } from "react-icons/bs";
 import { FcSettings } from "react-icons/fc";
-import { MdHomeWork } from "react-icons/md";
 import { AiOutlineBars } from "react-icons/ai";
-import { Link, NavLink } from "react-router-dom";
-import { GrLogout, GrUserAdmin } from "react-icons/gr";
-import { BsFillHouseAddFill, BsFingerprint, BsGraphUp } from "react-icons/bs";
 
+import MenuItem from "./Menu/MenuItem";
+import HostMenu from "./Menu/HostMenu";
+import AdminMenu from "./Menu/AdminMenu";
+import GuestMenu from "./Menu/GuestMenu";
 import useAuth from "../../../hooks/useAuth";
 import useRole from "../../../hooks/useRole";
-import MenuItem from "./Menu/MenuItem";
 
 const Sidebar = () => {
   const { logOut } = useAuth();
@@ -78,18 +80,9 @@ const Sidebar = () => {
                 address="/dashboard"
                 icon={BsGraphUp}
               />
-              {/* Add Room */}
-              <MenuItem
-                label="Add Room"
-                address="add-room"
-                icon={BsFillHouseAddFill}
-              />
-              {/* My Listing */}
-              <MenuItem
-                label="My Listings"
-                address="my-listings"
-                icon={MdHomeWork}
-              />
+              {role === "guest" && <GuestMenu />}
+              {role === "host" && <HostMenu />}
+              {role === "admin" && <AdminMenu />}
             </nav>
           </div>
         </div>

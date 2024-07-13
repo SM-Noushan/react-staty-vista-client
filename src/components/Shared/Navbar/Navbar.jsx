@@ -8,9 +8,11 @@ import HostModal from "../../Modals/HostRequestModal";
 import { useMutation } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import toast from "react-hot-toast";
+import useRole from "../../../hooks/useRole";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
+  const [role, isLoading] = useRole();
   const axiosSecure = useAxiosSecure();
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -65,7 +67,7 @@ const Navbar = () => {
               <div className="flex flex-row items-center gap-3">
                 {/* Become A Host btn */}
                 <div className="hidden md:block">
-                  {user && (
+                  {user && !isLoading && role === "guest" && (
                     <button
                       onClick={() => setIsModalOpen(true)}
                       disabled={!user}

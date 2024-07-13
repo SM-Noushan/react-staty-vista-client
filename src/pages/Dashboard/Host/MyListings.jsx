@@ -3,9 +3,9 @@ import { Helmet } from "react-helmet-async";
 import toast from "react-hot-toast";
 
 import useAuth from "../../../hooks/useAuth";
-import RoomDataRow from "../TableRows/RoomDataRow";
-import LoadingSpinner from "../../Shared/LoadingSpinner";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
+import RoomDataRow from "../../../components/Dashboard/TableRows/RoomDataRow";
 
 const MyListings = () => {
   const { user } = useAuth();

@@ -6,11 +6,12 @@ import Login from "../pages/Login/Login";
 import PrivateRoute from "./PrivateRoute";
 import ErrorPage from "../pages/ErrorPage";
 import SignUp from "../pages/SignUp/SignUp";
-import RoomDetails from "../pages/RoomDetails/RoomDetails";
 import Dashboard from "../layouts/Dashboard";
-import Statistics from "../components/Dashboard/Common/Statistics";
-import AddRoom from "../components/Dashboard/Host/AddRoom";
-import MyListings from "../components/Dashboard/Host/MyListings";
+import AddRoom from "../pages/Dashboard/Host/AddRoom";
+import Profile from "../pages/Dashboard/Common/Profile";
+import RoomDetails from "../pages/RoomDetails/RoomDetails";
+import MyListings from "../pages/Dashboard/Host/MyListings";
+import Statistics from "../pages/Dashboard/Common/Statistics";
 
 export const router = createBrowserRouter([
   {
@@ -51,6 +52,10 @@ export const router = createBrowserRouter([
       {
         path: "my-listings",
         element: <MyListings />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
       },
     ],
   },

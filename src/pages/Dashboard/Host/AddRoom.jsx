@@ -6,8 +6,8 @@ import { useMutation } from "@tanstack/react-query";
 
 import useAuth from "../../../hooks/useAuth";
 import { imageUpload } from "../../../api/utils";
-import AddRoomForm from "../../Form/AddRoomForm";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import AddRoomForm from "../../../components/Form/AddRoomForm";
 
 const AddRoom = () => {
   const { user } = useAuth();

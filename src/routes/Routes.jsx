@@ -13,6 +13,8 @@ import RoomDetails from "../pages/RoomDetails/RoomDetails";
 import MyListings from "../pages/Dashboard/Host/MyListings";
 import Statistics from "../pages/Dashboard/Common/Statistics";
 import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
+import AdminRoute from "./AdminRoute";
+import HostRoute from "./HostRoute";
 
 export const router = createBrowserRouter([
   {
@@ -48,15 +50,27 @@ export const router = createBrowserRouter([
       },
       {
         path: "add-room",
-        element: <AddRoom />,
+        element: (
+          <HostRoute>
+            <AddRoom />,
+          </HostRoute>
+        ),
       },
       {
         path: "my-listings",
-        element: <MyListings />,
+        element: (
+          <HostRoute>
+            <MyListings />,
+          </HostRoute>
+        ),
       },
       {
         path: "manage-users",
-        element: <ManageUsers />,
+        element: (
+          <AdminRoute>
+            <ManageUsers />,
+          </AdminRoute>
+        ),
       },
       {
         path: "profile",

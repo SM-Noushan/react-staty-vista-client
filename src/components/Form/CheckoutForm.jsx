@@ -24,15 +24,30 @@ const CheckoutForm = ({ bookingInfo, closeModal }) => {
     return data;
   };
 
+  //update booked status
+  const { mutateAsync: statusMutateAsync } = useMutation({
+    mutationFn: async () => {
+      const { data } = axiosSecure.patch(`/room/status/${bookingInfo?.roomId}`, {
+        status: true,
+      });
+      return data;
+    },
+    onSuccess: () => {
+      toast.success("Reservation successful");
+      navigate("/dashboard/my-bookings");
+    },
+    onError: () => {
+      toast.error("Failed! Try again");
+    },
+  });
   //post roomData to server
   const { mutateAsync: bookingMutateAsync } = useMutation({
     mutationFn: async (bookingData) => {
       const { data } = axiosSecure.post("/booking", bookingData);
       return data;
     },
-    onSuccess: () => {
-      toast.success("Reservation successful");
-      navigate("/dashboard/my-bookings");
+    onSuccess: async () => {
+      await statusMutateAsync();
     },
     onError: () => {
       toast.error("Failed! Try again");

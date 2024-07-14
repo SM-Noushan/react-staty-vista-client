@@ -24,12 +24,15 @@ const CheckoutForm = ({ bookingInfo, closeModal }) => {
     return data;
   };
 
-  //update booked status
+  //update room.booked status
   const { mutateAsync: statusMutateAsync } = useMutation({
     mutationFn: async () => {
-      const { data } = axiosSecure.patch(`/room/status/${bookingInfo?.roomId}`, {
-        status: true,
-      });
+      const { data } = axiosSecure.patch(
+        `/room/status/${bookingInfo?.roomId}`,
+        {
+          status: true,
+        }
+      );
       return data;
     },
     onSuccess: () => {
@@ -40,7 +43,7 @@ const CheckoutForm = ({ bookingInfo, closeModal }) => {
       toast.error("Failed! Try again");
     },
   });
-  //post roomData to server
+  //save booking data to db
   const { mutateAsync: bookingMutateAsync } = useMutation({
     mutationFn: async (bookingData) => {
       const { data } = axiosSecure.post("/booking", bookingData);
@@ -151,12 +154,13 @@ const CheckoutForm = ({ bookingInfo, closeModal }) => {
           {processing ? (
             <ImSpinner9 className="animate-spin m-auto" size={24} />
           ) : (
-            `Pay ${bookingInfo?.price}`
+            `Pay $${bookingInfo?.price}`
           )}
         </button>
         <button
           type="button"
-          className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+          disabled={processing}
+          className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed"
           onClick={closeModal}
         >
           Cancel

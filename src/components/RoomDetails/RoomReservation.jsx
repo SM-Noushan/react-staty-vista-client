@@ -55,7 +55,7 @@ const RoomReservation = ({ room }) => {
         <Button
           disabled={room?.booked}
           onClick={() => setIsOpen(true)}
-          label={"Reserve"}
+          label={room?.booked ? "Reserved" : "Reserve"}
         />
       </div>
       {/* RESERVATION MODAL */}
@@ -66,7 +66,11 @@ const RoomReservation = ({ room }) => {
           ...room,
           roomId: room._id,
           price: room?.price * totalDays,
-          guest: { name: user?.displayName, email: user?.email },
+          guest: {
+            name: user?.displayName,
+            email: user?.email,
+            image: user?.photoURL,
+          },
         }}
       />
       <hr />

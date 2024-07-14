@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import { DateRange } from "react-date-range";
 import { differenceInCalendarDays } from "date-fns";
 
+import useAuth from "../../hooks/useAuth";
 import Button from "../Shared/Button/Button";
 import BookingModal from "../Modals/BookingModal";
-import useAuth from "../../hooks/useAuth";
 
 const RoomReservation = ({ room }) => {
   const { user } = useAuth();
@@ -52,7 +52,11 @@ const RoomReservation = ({ room }) => {
       </div>
       <hr />
       <div className="p-4">
-        <Button onClick={() => setIsOpen(true)} label={"Reserve"} />
+        <Button
+          disabled={room?.booked}
+          onClick={() => setIsOpen(true)}
+          label={"Reserve"}
+        />
       </div>
       {/* RESERVATION MODAL */}
       <BookingModal
@@ -60,8 +64,9 @@ const RoomReservation = ({ room }) => {
         closeModal={closeModal}
         bookingInfo={{
           ...room,
+          roomId: room._id,
           price: room?.price * totalDays,
-          guest: { name: user?.displayName },
+          guest: { name: user?.displayName, email: user?.email },
         }}
       />
       <hr />
